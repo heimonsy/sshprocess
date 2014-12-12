@@ -1,5 +1,5 @@
 {
-    "name": "heimonsy/SSHProcess",
+    "name": "heimonsy/sshprocess",
     "description": "process with ssh client and rsync",
     "license": "MIT",
     "require": {
