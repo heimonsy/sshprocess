@@ -4,7 +4,7 @@
     "license": "MIT",
     "require": {
         "php": ">=5.3",
-        "symfony/process": "~2.6"
+        "symfony/process": "2.5.*"
     },
     "autoload": {
         "psr-4": {
