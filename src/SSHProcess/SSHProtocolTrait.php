@@ -5,11 +5,11 @@ use Symfony\Component\Process\Process;
 
 trait SSHProtocolTrait
 {
-    protected function expect($command)
+    protected function expect($command, $timeout = 180)
     {
         return  <<<EOD
 expect << EOF
-set timeout 180
+set timeout {$timeout}
 spawn {$command}
 while (1) {
     expect {
@@ -25,11 +25,11 @@ EOF
 EOD;
     }
 
-    protected function expectWithPassphrase($command, $passphrase)
+    protected function expectWithPassphrase($command, $passphrase, $timeout = 180)
     {
         return <<<EOD
 expect << EOF
-set timeout 180
+set timeout {$timeout}
 spawn {$command}
 expect {
     "ssh: connect" { puts stderr "ssh connect error"; exit 1 }
