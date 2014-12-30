@@ -17,6 +17,8 @@ while (1) {
         eof { exit 0 }
         "password: " { puts stderr "ssh private key unrecognized or does not exists"; exit 1 }
         "Enter passphrase" { puts stderr "private key error or need passpharse"; exit 1 }
+        "fatal: " { puts stderr "private key error"; exit 1 }
+        "Permission denied" { puts stderr "private key error"; exit 1 }
         "ssh: connect" { puts stderr "ssh connect error"; exit 1 }
         "(yes/no)? " { send "yes\r" }
     }
@@ -34,6 +36,8 @@ spawn {$command}
 expect {
     "ssh: connect" { puts stderr "ssh connect error"; exit 1 }
     timeout { puts stderr 'unknow error'; exit 1 }
+    "fatal: " { puts stderr "private key error"; exit 1 }
+    "Permission denied" { puts stderr "private key error"; exit 1 }
     "password: " { puts stderr "ssh private key unrecognized"; exit 1 }
     "Enter passphrase" { send "{$passphrase}\r" }
     "(yes/no)? " { send "yes\r" }
@@ -41,6 +45,8 @@ expect {
 
 expect {
     timeout { puts stderr 'unknow error'; exit 1 }
+    "fatal: " { puts stderr "private key error"; exit 1 }
+    "Permission denied" { puts stderr "private key error"; exit 1 }
     "password: " { puts stderr "ssh private key unrecognized"; exit 1 }
     "Enter passphrase" { send "{$passphrase}\r" }
     eof { exit 0 }
@@ -48,6 +54,8 @@ expect {
 
 expect  {
     timeout { puts stderr 'unknow error'; exit 1 }
+    "fatal: " { puts stderr "private key error"; exit 1 }
+    "Permission denied" { puts stderr "private key error"; exit 1 }
     eof { exit 0 }
     "Enter passphrase" { puts stderr "private key passpharse not match"; exit 1 }
 }
