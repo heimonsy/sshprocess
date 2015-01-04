@@ -5,8 +5,17 @@ use Symfony\Component\Process\Process;
 
 trait SSHProtocolTrait
 {
+    protected $originCommand;
+
+    public function getOriginCommand()
+    {
+        return $this->originCommand;
+    }
+
     protected function expect($command, $timeout = 180)
     {
+        $this->originCommand = $command;
+
         return  <<<EOD
 expect << EOF
 set timeout {$timeout}
@@ -14,7 +23,7 @@ spawn {$command}
 while (1) {
     expect {
         timeout { puts stderr 'unknow error'; exit 1 }
-        eof { exit 0 }
+        eof { break }
         "password: " { puts stderr "ssh private key unrecognized or does not exists"; exit 1 }
         "Enter passphrase" { puts stderr "private key error or need passpharse"; exit 1 }
         "fatal: " { puts stderr "private key error"; exit 1 }
@@ -23,12 +32,22 @@ while (1) {
         "(yes/no)? " { send "yes\r" }
     }
 }
+
+lassign [wait] pid spawnid os_error_flag value
+
+if {\$os_error_flag == 0} {
+    puts "exit status: \$value"
+} else {
+    puts "errno: \$value"
+}
 EOF
 EOD;
     }
 
     protected function expectWithPassphrase($command, $passphrase, $timeout = 180)
     {
+        $this->originCommand = $command;
+
         return <<<EOD
 expect << EOF
 set timeout {$timeout}
@@ -58,6 +77,14 @@ expect  {
     "Permission denied" { puts stderr "private key error"; exit 1 }
     eof { exit 0 }
     "Enter passphrase" { puts stderr "private key passpharse not match"; exit 1 }
+}
+
+lassign [wait] pid spawnid os_error_flag value
+
+if {\$os_error_flag == 0} {
+    puts "exit status: \$value"
+} else {
+    puts "errno: \$value"
 }
 EOF
 EOD;
