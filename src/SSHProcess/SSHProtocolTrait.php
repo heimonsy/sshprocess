@@ -33,13 +33,6 @@ while (1) {
     }
 }
 
-lassign [wait] pid spawnid os_error_flag value
-
-if {\$os_error_flag == 0} {
-    puts "exit status: \$value"
-} else {
-    puts "errno: \$value"
-}
 EOF
 EOD;
     }
@@ -79,13 +72,6 @@ expect  {
     "Enter passphrase" { puts stderr "private key passpharse not match"; exit 1 }
 }
 
-lassign [wait] pid spawnid os_error_flag value
-
-if {\$os_error_flag == 0} {
-    puts "exit status: \$value"
-} else {
-    puts "errno: \$value"
-}
 EOF
 EOD;
     }
