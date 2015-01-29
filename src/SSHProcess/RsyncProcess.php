@@ -24,7 +24,7 @@ class RsyncProcess extends Process
                 " {$exclude} {$localDir} {$username}@{$address}:$remoteDir ";
             $commandline = $this->expectWithPassphrase($cmd, $passphrase, $timeout);
         } elseif (!empty($identityfile)) {
-            $cmd = "rsync -az {$forceDelete} --delay-updates -e \"ssh -o ConnectTimeout=30 -i \\\"{$identityfile}\\\"-p {$port}\"" .
+            $cmd = "rsync -az {$forceDelete} --delay-updates -e \"ssh -o ConnectTimeout=30 -i \\\"{$identityfile}\\\" -p {$port}\"" .
                 " {$exclude} {$localDir} {$username}@{$address}:$remoteDir ";
             $commandline = $this->expect($cmd, $timeout);
         } else {
