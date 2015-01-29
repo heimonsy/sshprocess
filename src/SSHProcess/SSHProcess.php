@@ -9,6 +9,8 @@ class SSHProcess extends Process
 
     public function __construct($hostname, $address, $username, $remoteCommand, $identityfile = null, $passphrase = null, $cwd = null, $port = 22, $timeout = 180)
     {
+        $remoteCommand = addcslashes($remoteCommand, '"');
+
         if (!empty($passphrase)) {
             $cmd = "ssh -o ConnectTimeout=30 -i {$identityfile} {$username}@{$address} -p {$port} \"{$remoteCommand}\"";
             $commandline = $this->expectWithPassphrase($cmd, $passphrase, $timeout);
