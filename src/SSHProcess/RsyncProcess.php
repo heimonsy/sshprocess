@@ -7,7 +7,7 @@ class RsyncProcess extends Process
 {
     use SSHProtocolTrait;
 
-    const FORCE_DELETE = ' --force --delete --delete-excluded ';
+    const FORCE_DELETE = ' --force --delete ';
     const KEEP_FILES = ' ';
 
     public function __construct($hostname, $address, $username, $exclude, $localDir, $remoteDir, $forceDelete, $identityfile = null, $passphrase = null, $cwd = null, $port = 22, $timeout = 180)
