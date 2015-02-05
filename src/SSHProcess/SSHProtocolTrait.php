@@ -58,6 +58,7 @@ EOD;
         return <<<EOD
 expect << EOF
 set timeout {$timeout}
+eval exp_spawn {$command}
 
 proc judge {} {
     set ret [exp_wait]
@@ -76,7 +77,6 @@ proc judge {} {
     exit 0
 }
 
-eval exp_spawn {$command}
 expect {
     "ssh: connect" { puts stderr "ssh connect error"; exit 1 }
     timeout { puts stderr 'unknow error'; exit 1 }
