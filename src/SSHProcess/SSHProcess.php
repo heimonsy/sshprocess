@@ -18,7 +18,7 @@ class SSHProcess extends Process
             $cmd = "ssh -o ConnectTimeout=30 -i {$identityfile} {$username}@{$address} -p {$port} \"{$remoteCommand}\"";
             $commandline = $this->expect($cmd, $timeout);
         } else {
-            $cmd = "ssh -o ConnectTimeout=30 {$hostname} \"{$remoteCommand}\"";
+            $cmd = "ssh -o ConnectTimeout=30 {$hostname} -p {$port} \"{$remoteCommand}\"";
             $commandline = $this->expect($cmd, $timeout);
         }
 

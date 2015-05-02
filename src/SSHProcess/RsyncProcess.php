@@ -28,7 +28,7 @@ class RsyncProcess extends Process
                 " {$exclude} {$localDir} {$username}@{$address}:$remoteDir ";
             $commandline = $this->expect($cmd, $timeout);
         } else {
-            $cmd = "rsync -az {$forceDelete} --delay-updates -e \"ssh -o ConnectTimeout=30\" " .
+            $cmd = "rsync -az {$forceDelete} --delay-updates -e \\\"ssh -o ConnectTimeout=30 -p {$port}\\\" " .
                 " {$exclude} {$localDir} {$hostname}:$remoteDir ";
             $commandline = $this->expect($cmd, $timeout);
         }
